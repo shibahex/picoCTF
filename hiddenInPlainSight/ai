@@ -1,0 +1,96 @@
+https://security.stackexchange.com/questions/2144/detecting-steganography-in-images
+
+
+~/Projects/picoCTF/hiddenInPlainSight (impure)> hexdump  notEmbeded.jpg | tail
+0050ab0 00ac 6603 0600 0000 2807 0000 0100 8497
+0050ac0 1403 f8c8 0000 be02 009b 0338 1580 52ea
+0050ad0 1b00 4a8e 20f8 c801 957b c0fd bc10 0010
+0050ae0 4b05 c01e 161f 0040 3c06 1c00 0086 c001
+0050af0 00d8 0000 0000 a800 6109 8707 0140 0a51
+0050b00 6896 5e08 e449 70af 8003 8c00 0b0e 0058
+0050b10 0b4e 00b9 e4a4 9f16 4020 0007 1500 0380
+0050b20 afd8 4036 0216 00c8 0052 702c 08d8 ff01
+0050b30 00d9                                   
+0050b31
+
+Bingo — there it is! 🎯
+
+Look at the very last line of your hex dump:
+
+0050b30 00d9
+
+The JPEG End Of Image (EOI) marker is:
+
+FF D9
+
+In your dump, we see:
+
+ffd9
+
+So your JPEG ends at byte 0x50b31 (the last d9).
+
+✅ That means everything before FFD9 is valid JPEG data.
+✅ Anything after it (if file is larger than 0x50b32) would be hidden/appended data.
+
+How to Check for Hidden Data
+
+Get file size:
+
+stat -c%s notEmbeded.jpg
+
+Let’s say it reports 0x60xxx bytes.
+Then bytes from 0x50b32 to end are your hidden payload.
+
+Carve it out:
+
+dd if=notEmbeded.jpg of=hidden.bin bs=1 skip=$((0x50b32))
+
+Check what it is:
+
+file hidden.bin
+
+Most likely it’ll detect a ZIP, text, or some other CTF clue.
+
+If you want, I can write the exact one-liner to extract the hidden file from this JPEG for picoCTF. It’s super fast. Do you want me to do that?
+
+~/Projects/picoCTF/hiddenInPlainSight (impure)> stat -c%s notEmbeded.jpg
+330545
+
+Perfect — now we can do the math carefully to see if there’s extra data. 🧐
+
+Step 1 — Convert hex offset of FFD9 to decimal
+
+From your hexdump, FFD9 ends at 0x50b31. That’s hex. Convert to decimal:
+
+0x50b31 = (5*16^4) + (0*16^3) + (11*16^2) + (3*16^1) + 1*16^0
+
+Step by step:
+
+5 × 16⁴ = 5 × 65536 = 327680
+
+0 × 16³ = 0
+
+11 × 16² = 11 × 256 = 2816
+
+3 × 16¹ = 3 × 16 = 48
+
+1 × 16⁰ = 1
+
+Add them up:
+
+327680 + 0 + 2816 + 48 + 1 = 330545
+Step 2 — Compare to file size
+
+Your file size from stat is:
+
+330545 bytes
+
+Exactly matches the offset of the last byte (FFD9) + 1 (since offsets start at 0).
+
+✅ Step 3 — Conclusion
+
+There is no extra data after the JPEG EOI.
+
+The file is just a normal JPEG.
+
+This explains why tail showed nothing meaningful — there’s nothing appended.
