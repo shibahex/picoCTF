@@ -1,3 +1,5 @@
+all you get is a pdf, and the flag is the author.
+
 ```bash
 > head confidential.pdf -n 13
 %PDF-1.7
