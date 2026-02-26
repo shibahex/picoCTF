@@ -33,10 +33,10 @@
           # Hex Editors
           imhex # dark mode simple hex editor
           okteta # more complete hex editor
+          xxd # hex dump and converting
 
           # Binary analysis
           file # identify file types
-          xxd # hex dump
 
           # Network / traffic
           nmap
