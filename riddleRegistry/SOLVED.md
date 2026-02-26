@@ -24,7 +24,6 @@ then
 ```
 
 
-personal rating - 5/10
-
-was too easy for me but its creative, I like how the .pdf file tries to throw you off.
+## personal rating
+was too easy for me but its creative, I like how the .pdf file tries to throw you off. 5/10
 

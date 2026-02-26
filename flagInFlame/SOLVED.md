@@ -13,6 +13,6 @@ if we use xxd to convert the hex as plain text
 ```
 
 
-personal rating - 4/10
-cool to use xxd but thats pretty much it
+### personal rating
+cool to use xxd but thats pretty much it, too simple for my liking 4/10
 
