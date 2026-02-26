@@ -9,7 +9,7 @@ gives you an image, if you open it there is text on the image, which is hex.
 if we use xxd to convert the hex as plain text
 ```bash
 > echo "7069636F4354467B666F72656E736963735F616E616C797369735F69735F616D617A696E675F32346431363839357D" | xxd  -r -p
-picoCTF{forensics_analysis_is_amazing_24d16895}
+**PICOCTF FLAG**
 ```
 
 

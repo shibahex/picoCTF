@@ -18,8 +18,11 @@ endobj
 then 
 ```bash
 > echo "cGljb0NURntwdXp6bDNkX20zdGFkYXRhX2YwdW5kIV9lZTQ1NDk1MH0" | base64 -d
-picoCTF{puzzl3d_m3tadata_f0und!_ee454950}
+**PICOCTF FLAG**
 ```
 
-gives you picoCTF{puzzl3d_m3tadata_f0und!_ee454950}
+
+personal rating - 5/10
+
+was too easy for me but its creative, I like how the .pdf file tries to throw you off.
 
